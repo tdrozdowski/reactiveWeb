@@ -31,7 +31,8 @@ angular.module('reactiveApp')
         deferred.promise
 
       updateUser : (user) ->
-        $http.put("#{apiHost}/user/#{email}", user)
+        console.log "user ->", user
+        $http.put("#{apiHost}/user/#{user._id.$oid}", user)
           .success (results) ->
             console.log "updated"
           .error (e) ->

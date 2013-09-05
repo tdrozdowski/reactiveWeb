@@ -14,7 +14,8 @@ angular.module('reactiveApp')
       ws.onmessage = (response) ->
         console.log "Received a response from WS: ", response
         $scope.$apply($scope.complaints.push(JSON.parse(response.data)))
-        #$scope.$digest
+        scrollDiv = document.getElementById("whiners")
+        scrollDiv.scrollTop = scrollDiv.scrollHeight
 
       ws.onclose = () ->
         console.log "WS closed..."
@@ -25,6 +26,7 @@ angular.module('reactiveApp')
           complaint : $scope.complaint
           time : moment().valueOf()
         ws.send(JSON.stringify(complaint))
+        $scope.complaint = ""
 
       $scope.userSelected = () ->
         UserService.getUser($scope.selectedUser)
@@ -36,7 +38,10 @@ angular.module('reactiveApp')
             $scope.user = $scope.$initial
 
       $scope.update = () ->
-        UserService.update($scope.user)
-        $scope.user = $scope.$initial
+        UserService.updateUser($scope.user)
+          .then (results) ->
+            $scope.results = "Updated!"
+          , (e) ->
+            $scope.results = "Error Occurred!"
 
   ]
