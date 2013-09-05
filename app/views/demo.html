@@ -5,12 +5,18 @@
 
         <div class="well" ng-hide="user == null">
             <div class="row">
-                <form>
+                <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label>Profile Pic</label>
-                        <img src="{{imageUrl}}" height="85" class="img-responsive" ng-hide="imageUrl == null"/>
-                        <file name="image" ng-model="profilePic" accept="image/png,image/jpg,image/jpeg"/>
-                        <button type="button" class="btn btn-primary" ng-click="uploadProfile()">Upload</button>
+                        <label class="col-lg-2 control-label">Profile Pic</label>
+                        <div class="col-md-4">
+                            <img src="{{imageUrl}}" height="85" class="img-responsive" ng-hide="imageUrl == null"/>
+                            <file name="image" ng-model="profilePic" accept="image/png,image/jpg,image/jpeg"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-1 col-md-offset-1">
+                            <button type="button" class="btn btn-primary" ng-click="uploadProfile()">Upload</button>
+                        </div>
                     </div>
                 </form>
             </div>
