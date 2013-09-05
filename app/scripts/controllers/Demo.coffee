@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('reactiveApp')
-  .controller 'DemoCtrl', ['$scope', 'emails', 'UserService', 'apiHost', ($scope, emails, UserService, apiHost) ->
+  .controller 'DemoCtrl', ['$scope', '$http', 'emails', 'UserService', 'apiHost', ($scope, $http, emails, UserService, apiHost) ->
       $scope.emails = emails
       $scope.complaint = ""
       $scope.complaints = []
@@ -43,5 +43,27 @@ angular.module('reactiveApp')
             $scope.results = "Updated!"
           , (e) ->
             $scope.results = "Error Occurred!"
+
+      $scope.uploadProfile = () ->
+        file = $scope.profilePic
+        config =
+          method : "PUT"
+          url : "#{apiHost}/user/#{$scope.selectedUser}/profilePic"
+          headers : {'Content-Type' : undefined}
+          data : { file: $scope.profilePic }
+          transformRequest : (data) ->
+                              fd = new FormData()
+                              angular.forEach data, (value, key) ->
+                                fd.append key, value
+
+                              fd
+
+        $http(config)
+          .success (results) ->
+            console.log "File Upload Results ->", results
+            $scope.imageUrl = "#{apiHost}/user/#{$scope.selectedUser}/profilePic"
+          .error (results) ->
+            console.log "File upload failed ->", results
+
 
   ]
